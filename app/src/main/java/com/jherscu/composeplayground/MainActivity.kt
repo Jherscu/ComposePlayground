@@ -12,6 +12,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -42,6 +44,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Theme() {
+    val color = remember {
+        mutableStateOf(Color.Blue)
+    }
+
     Surface(
         shape = CircleShape,
         modifier = Modifier
@@ -93,14 +99,22 @@ fun Theme() {
                 contentDescription = "Picture of Kermit in the snow",
                 title = "Kermit in the snow"
             )
-            Text(
-                text = "Hello Pie!",
-                modifier = Modifier
-                    .background(Color.Blue)
-                    .clickable {
-
-                    }
-            )
+            Surface(modifier = Modifier, shape = RoundedCornerShape(15.dp)) {
+                Text(
+                    text = "Hello Pie!",
+                    color = Color.White,
+                    modifier = Modifier
+                        .background(color = color.value)
+                        .padding(15.dp)
+                        .clickable {
+                            if (color.value == Color.Blue) {
+                                color.value = Color.Magenta
+                            } else {
+                                color.value = Color.Blue
+                            }
+                        }
+                )
+            }
             Spacer(modifier = Modifier.height(30.dp))
         }
     }
